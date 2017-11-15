@@ -15,7 +15,7 @@ class CmsPage extends React.Component {
       // only update when a component changes, when body is empty the user has clicked cancel in component settings
       // refresh in that case to make managing state easier
       if (!data.body) {
-        location.reload();
+        window.location.reload();
       } else {
         // find the component that needs to be updated in the page structure object using its ID
         const componentToUpdate = findChildById(this.state.pageStructure, data.id);
@@ -35,7 +35,7 @@ class CmsPage extends React.Component {
                 let documents = this.state.pageStructure.documents;
                 // ignore error on next line, as variable is a reference to a sub-object of pageStructure
                 // and will be used when pageStructure is updated/set
-                documents = Object.assign(documents, response.documents);
+                documents = Object.assign(documents, response.documents); // eslint-disable-line
               }
               // update the page structure after the component/container has been updated
               this.setState({
