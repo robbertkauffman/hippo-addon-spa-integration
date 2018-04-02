@@ -1,7 +1,9 @@
 import { baseUrls } from '../env-vars';
 import jsonpointer from 'jsonpointer';
 
-export function getImageUrl(imageRef, pageModel) {
+export function getImageProperties(imageRef, pageModel) {
+  let imageProps;
+
   // get image reference
   let imageUuid;
   if (imageRef || imageRef.$ref) {
@@ -14,11 +16,28 @@ export function getImageUrl(imageRef, pageModel) {
     image = jsonpointer.get(pageModel, imageUuid);
   }
 
-  // build URL
-  let imageUrl = null;
-  if (image && image._links && image._links.site && image._links.site.href) {
-    imageUrl = baseUrls.cmsBaseUrl + image._links.site.href;
+  if (image) {
+    imageProps = {
+      url: null,
+      height: null,
+      width: null
+    };
+
+    // build URL
+    if (image._links && image._links.site && image._links.site.href) {
+      imageProps.url = baseUrls.cmsBaseUrl + image._links.site.href;
+    }
+
+    // get height of image
+    if (image.original && image.original.height) {
+      imageProps.height = image.original.height;
+    }
+
+    // get width of image
+    if (image.width && image.original.width) {
+      imageProps.width = image.original.width;
+    }
   }
 
-  return imageUrl;
+  return imageProps;
 }

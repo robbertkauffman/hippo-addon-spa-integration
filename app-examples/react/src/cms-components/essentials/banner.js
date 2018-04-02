@@ -1,12 +1,12 @@
 import React from 'react';
-import { getImageUrl } from '../../utils/image-url';
+import { getImageProperties } from '../../utils/image-url';
 import { parseAndRewriteLinks } from '../../utils/link-rewriter';
 
 export default class Banner extends React.Component {
   render() {
     const content = this.props.content;
     const manageContentButton = this.props.manageContentButton;
-    const image = getImageUrl(content.image, this.props.pageModel);
+    const image = getImageProperties(content.image, this.props.pageModel);
 
     let contentHtml;
     if (content.content && content.content.value) {
@@ -21,7 +21,7 @@ export default class Banner extends React.Component {
         }
         { image &&
           <figure>
-            <img src={image} alt={content.title}/>
+            <img src={image.url} alt={content.title} height={image.height} width={image.width}/>
           </figure>
         }
         { contentHtml && contentHtml }
